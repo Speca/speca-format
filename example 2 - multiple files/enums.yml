@@ -1,0 +1,7 @@
+enums:
+  - name : AnswerType
+    values:
+      - value: OK
+        desc : positive answer
+      - value: CANCEL
+        desc : hello ignored

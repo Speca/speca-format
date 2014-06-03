@@ -1,0 +1,15 @@
+type: envelope
+desc: |
+  All response data are wrapped into envelope object, e.g.
+    {
+      "status":"ok"
+      "exec_time":123
+      "data" : {... response data ...}
+    }
+fields:
+  - name: status
+    desc: request status
+  - name: exec_time
+    desc: request processing time
+  - name: data
+    type: data_container

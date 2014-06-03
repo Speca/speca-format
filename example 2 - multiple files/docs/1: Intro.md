@@ -1,0 +1,1 @@
+Hello world API specification defined in single Speca file.

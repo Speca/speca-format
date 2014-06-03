@@ -1,0 +1,3 @@
+# `group.yml` may present in the methods root, in this case it typically overrides unsorted methods inclusion/order
+# desc field will be ignored if present
+methods: ["Method 3"]

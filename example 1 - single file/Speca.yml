@@ -1,0 +1,148 @@
+--- # Speca v0.1-DRAFT
+#
+#
+# Hello Speca World!
+#
+#
+#
+# Hello World Public API documentation
+#
+
+
+base_url: http://helloworld.io/api/{version}
+base_url_vars:
+  - name: version
+    desc: api version; 1 - the only supported value at the moment
+
+
+#################################################### DOCUMENTATION #######################################################
+
+
+docs:
+  - name: Intro
+    content: Hello world API specification defined in single Speca file.
+
+  - name: Authentication
+    content: |
+      Then only supported auth mechanizm is a key authentication. To obtain a key please go to ...
+      Key can be passed either as `api_key` parameter or `X-api-key` header common for all requests
+
+
+#################################################### COMMON ##############################################################
+
+params:
+  desc: common params description
+  params:
+    - name: api_key
+      applied_to_all: true
+      desc: Api key passied as a query parameter
+    - name: q
+      desc: search query parameter
+
+headers:
+  request:
+    desc: common params description
+    headers:
+      - name: X-api-key
+        applied_to_all: true
+        desc: Api key passed as a request header
+  response:
+    desc : There is no common response headers defined
+
+errors:
+  desc: Common errors description
+  errors:
+    - name: Access Denied
+      status: 403
+      desc: User is not permitted to access a particular resource
+      type: ErrorModel
+      applied_to_all: true
+      example: |
+        {
+          "code":1,
+          "message":"access denied"
+        }
+
+#################################################### METHODS ##############################################################
+
+groups:
+  - name: Hello
+    desc: Hello world method group
+    methods: ["Method 1", "Method 2"]  # methods order will be preserved
+
+methods:
+  - name: Method 1
+    method: GET
+    path: /hello/{hello id}
+    path_vars:
+      - name: hello id
+    desc: Description of method 1
+    request:
+      params:
+        - ref: q
+          desc: Description is overridden
+        - name: myname
+          type: string
+          example: Pavel
+    response:
+      status: 200
+      body:
+        desc: Response body sescription
+        type: HelloType
+        envelope: MainEnvelope
+
+  - name: Method 2
+    method: POST
+    path: /hello
+    desc: Description of method 2
+    response:
+      status: 201
+
+  - name: Method 3
+    path: /world
+    method: DELETE
+    desc: This method is not within any group and will be displaed in the root of the methods list, sorted alphabetically
+    response:
+      status: 204
+
+
+#################################################### DATA MODELS ###########################################################
+
+
+enums:
+  - name : AnswerType
+    values:
+      - value: OK
+        desc : positive answer
+      - value: CANCEL
+        desc : hello ignored
+
+model:
+  - name: HelloType
+    desc: Dummy data type for hello model API purposes
+    fields:
+      - name: name
+        desc: Name to say hello
+        type: string
+      - name: count
+        desc: How many times hello was said
+        type: number
+      - name: answer_type
+        type: AnswerType
+
+envelopes:
+  - name: MainEnvelope
+    desc: |
+        All response data are wrapped into envelope object, e.g.
+          {
+            "status":"ok"
+            "exec_time":123
+            "data" : {... response data ...}
+          }
+    fields:
+      - name: status
+        desc: request status
+      - name: exec_time
+        desc: request processing time
+      - name: data
+        type: data_container

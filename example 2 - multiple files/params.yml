@@ -1,0 +1,7 @@
+desc: common params description
+params:
+  - name: api_key
+    applied_to_all: true
+    desc: Api key passied as a query parameter
+  - name: q
+    desc: search query parameter

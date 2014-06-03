@@ -1,0 +1,15 @@
+--- # Speca v0.1-DRAFT
+#
+#
+# Hello Speca World!
+#
+#
+#
+# Hello World Public API documentation
+#
+
+
+base_url: http://helloworld.io/api/{version}
+base_url_vars:
+  - name: version
+    desc: api version; 1 - the only supported value at the moment

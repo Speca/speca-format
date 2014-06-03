@@ -1,0 +1,7 @@
+type: error
+name: ErrorModel
+fields:
+  - name: code
+    desc: ...
+  - name: message
+    desc: ...

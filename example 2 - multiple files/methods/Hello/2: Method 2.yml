@@ -1,0 +1,6 @@
+name: Method 2
+method: POST
+path: /hello
+desc: Description of method 2
+response:
+ status: 201

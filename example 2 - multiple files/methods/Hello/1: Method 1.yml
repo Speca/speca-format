@@ -1,0 +1,18 @@
+name: Method 1
+method: GET
+path: /hello/{hello id}
+path_vars:
+  - name: hello id
+desc: Description of method 1
+request:
+  params:
+    - ref: q
+      desc: Description is overridden
+    - name: myname
+      type: string
+      example: Pavel
+response:
+  status: 200
+  body:
+    type: HelloType
+    envelope: MainEnvelope

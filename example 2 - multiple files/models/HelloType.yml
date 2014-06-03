@@ -1,0 +1,10 @@
+desc: Dummy data type for hello model API purposes
+fields:
+  - name: name
+    desc: Name to say hello
+    type: string
+  - name: count
+    desc: How many times hello was said
+    type: number
+  - name: answer_type
+    type: AnswerType

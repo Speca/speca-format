@@ -1,0 +1,14 @@
+##
+
+desc: Common errors description
+errors:
+  - name: Access Denied
+    status: 403
+    desc: User is not permitted to access a particular resource
+    type: ErrorModel
+    applied_to_all: true
+    example: |
+      {
+        "code":1,
+        "message":"access denied"
+      }
