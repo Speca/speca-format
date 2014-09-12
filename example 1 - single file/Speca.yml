@@ -9,14 +9,29 @@
 #
 
 
+
+#################################################### BASE URL ##########################################################
+#
+# Base URL and URL variables (if needed);
+# Url variable definition is exactly same as Parameter definition, see  Common parameters for details
+#
+
 base_url: http://helloworld.io/api/{version}
 base_url_vars:
   - name: version
     desc: api version; 1 - the only supported value at the moment
 
+#################################################### DOCUMENTATION #####################################################
 
-#################################################### DOCUMENTATION #######################################################
-
+# Text documentation is displayed under Documentation section of the final specification
+# There are two ways to define docs:
+#    1. in Speca.yml (like in this example) under `docs` you can provide a list of objects which defines doc title(name) and content;
+#       This way is not recommended for large specs
+#    2. keep documentation files under `docs` directory (see example 2 - multiple files for example)
+#      in this case file name becomes a title, e.g. docs/Authentication.md markdown document will be rendered and put under Documentation -> Authentication section
+#      of the final document
+#
+# Currently only markdown markup is supported;
 
 docs:
   - name: Intro
@@ -28,26 +43,81 @@ docs:
       Key can be passed either as `api_key` parameter or `X-api-key` header common for all requests
 
 
-#################################################### COMMON ##############################################################
+#################################################### COMMON PARAMS #####################################################
+
+# Common parameters - contains a list of parameter definitions shared across methods and optional description
+#
+#
+# Parameter definition consists of:
+# name            - parameter name (required);
+# type            - parameter type could be a primitive or enumerated type (optional, default: string)
+# desc            - parameter description
+# required        - if parameter is required
+# example         - example value for parameter
+# applied_to_all  - flag indicates that parameter is automatically applied for all methods across the spec, e.g. api_key and there in no need to define them for each method
+#
+# There are two options how to display common parameters in final specification:
+#        1. Display a list of common parameters in the documentation section
+#        2. Inline to each method
+#
+# this settings are configured under General->Params->Inline common parameters
+#
 
 params:
   desc: common params description
   params:
     - name: api_key
       applied_to_all: true
-      desc: Api key passied as a query parameter
+      desc: Api key passed as a query parameter
     - name: q
       desc: search query parameter
 
+
+#################################################### COMMON HEADERS ####################################################
+
+# Common headers - contains a list of request and response header definitions shared across methods and optional description
+# header definition is exactly same as parameter, see Common parameters above for details
+
 headers:
   request:
-    desc: common params description
+    desc: common headers description
     headers:
       - name: X-api-key
         applied_to_all: true
         desc: Api key passed as a request header
   response:
     desc : There is no common response headers defined
+
+#################################################### COMMON RESPONSES AND ERRORS #######################################
+
+# `responses` and `errors` define common responses across multiple methods,
+# there is only logical difference between two response types, they both are identical from **http** standpoint.
+# Normal response status code must be > 200 and < 400
+
+# If common response is defined under `errors` it is considered as an error response.
+# Error responses are appeared under **Errors** sub section of method definition
+# Error response body must be a model with type: `error`
+# Error response status code may be any existent http status code
+
+responses:
+  desc: Common responses description
+  responses:
+
+    # common  response without body, applied to all methods
+    - name: Not Modified
+      status: 304
+      applied_to_all: true
+
+    # common  response with body
+    - name: Simple OK response
+      status: 200
+      body:
+        type: OkResponse
+        example: |
+              {
+                "ok":true
+              }
+      headers:
 
 errors:
   desc: Common errors description
@@ -63,12 +133,100 @@ errors:
           "message":"access denied"
         }
 
-#################################################### METHODS ##############################################################
+#################################################### CUSTOM METHODS ATTRIBUTES #########################################
 
+# Custom method attributes (aka properties) are designed to be an extension point for API methods documentation;
+# They could be used to extend method definitions with any information you want in a way Speca platform understands
+# and provides an extra features based on these attributes like filtering by attribute presence or by attribute value
+# as well as include them into final specification
+#
+# The good examples of custom attributes can be **deprecated** mark or **authentication type** or **implementation status** etc...
+#
+#
+# Attribute definition consists of:
+# name     - attribute name (required); if you don't specify anything else than attribute became some sort of tag, e.g.  deprecated
+# options  - array of possible values for this attribute (string, optional)
+# desc     - attribute description
+# required - if attribute value is required for all methods
+# multiple - if attribute allows multiple values, e.g. Authentication: Basic, Key
+#
+# Attribute specified for a method are displayed in right-top corner panel in view mode??
+#
+
+attributes:
+
+  - name: Deprecated
+    desc: Mark method as deprecated
+
+  - name: Authentication required
+    desc: If authentication is required for particular method or not
+    options: ["YES", "NO"]
+
+  - name: Implementation Status
+    required: true
+    desc: Whether method is implemented or not
+    options: ["DONE", "IN PROGRESS", "NOT STARTED"]
+
+#################################################### GROUPS ############################################################
+
+# Methods can be organized into groups.
+#
+# Groups can be defined in two ways:
+# 1. In Speca.yml file under `groups` list;
+#     Group definition consist of:
+#       name - group name
+#       desc - group description
+#       methods - method names to be included into final specification and their order
+#    Groups order
+#       groups are ordered as the defined in the list
+
+# 2. Create directory under **methods**  and place relevant method definitions into it
+#    Directory name defines group name, directory content - methods belongs to a group
+#    Groups order
+#      Groups are ordered alphabetically until special prefix is added to the group name, e.g.
+#      1: Introduction
+#      2: Authentication
+#
+# Second approach is recommended for big specifications
+#
 groups:
   - name: Hello
     desc: Hello world method group
     methods: ["Method 1", "Method 2"]  # methods order will be preserved
+
+
+#################################################### METHODS ###########################################################
+
+#
+# Methods can be defined in two ways:
+#
+# 1. In Speca.yml file under `methods` list;
+#    Methods order:  methods are ordered as the defined in the list
+
+# 2. In separate yaml file located under  **methods** directory or under group directory **methods/[group dir]**
+#    Methods order
+#      Methods are ordered alphabetically until special prefix is added to the method name, e.g.
+#      1: Create a user
+#      2: Delete a user
+#
+# Second approach is recommended for big specifications
+
+#    Method definition includes:
+#       name      - method name
+#       method    - HTTP request method, one of: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
+#       path      - A relative path to the method,  **must** begin with a slash, path variables are supported via curly braces
+#                   e.g. /users/{user id}
+#       path_vars - list of path variables object - see Parameter type
+#       desc      - method description
+#
+#       request   -
+
+#       response  - list of responses considered as successful or normal but not error
+
+#       errors    - list of error responses
+
+#       examples  - list of examples
+
 
 methods:
   - name: Method 1
@@ -77,6 +235,10 @@ methods:
     path_vars:
       - name: hello id
     desc: Description of method 1
+    attributes:
+      Implementation Status: DONE
+      Authentication Required: NO
+
     request:
       params:
         - ref: q
@@ -87,7 +249,7 @@ methods:
     response:
       status: 200
       body:
-        desc: Response body sescription
+        desc: Response body description
         type: HelloType
         envelope: MainEnvelope
 
@@ -102,12 +264,28 @@ methods:
     path: /world
     method: DELETE
     desc: This method is not within any group and will be displaed in the root of the methods list, sorted alphabetically
+    attributes:
+      Deprecated:
+      Authentication Required: YES
+      "Implementation Status": DONE
     response:
       status: 204
 
 
-#################################################### DATA MODELS ###########################################################
+#################################################### ENUMERATED TYPES ##################################################
 
+# Enumerated type defines possible values (of string type) and can be used as:
+# - model field type;
+# - path variable type;
+# - base url variable type;
+# - query parameter/header type;
+# Enumerated types are defined under `enums` list in Speca.yml or in separate **enums.yml** file located in the root of specification
+# Enumerated type definition includes:
+#     name   - enumerated type name
+#     values - list of value object definitions, includes:
+#           value - particular value
+#           desc  - value description (optional)
+#
 
 enums:
   - name : AnswerType
@@ -117,7 +295,31 @@ enums:
       - value: CANCEL
         desc : hello ignored
 
-model:
+#################################################### DATA MODELS ########################################################
+
+# Data model - shared object type used across method request and response definitions
+#
+#
+#    Method definition includes:
+#       name      - model name
+#       desc      - model description
+#
+#       fields   -  list of field object definitions, which consists of:
+#                    name - field name
+#                    type - field type; primitive, enumerated type or model type
+#                    desc -  field description
+#                    array - indicated field is an array
+#                    example - example value
+#
+#       embedded  - list of _internal_ model definitions, e.g. User object has an `address` field which is object as well
+#                   and there is no need to share this definition than this type may be defined under `embedded` model list
+#
+#       type    - model type (optional, default:model, possible values: `envelope`, `error`, `model`)
+#
+#
+
+
+models:
   - name: HelloType
     desc: Dummy data type for hello model API purposes
     fields:
@@ -129,9 +331,48 @@ model:
         type: number
       - name: answer_type
         type: AnswerType
+  - name: ErrorModel
+    type: error
+    desc: Error object definition
+    fields:
+      - name: code
+        desc: error code
+        type: number
+      - name: message
+        desc: error description
+        type: string
 
-envelopes:
+# Envelope type model are special models needed for wrapping responses with auxiliary data common for multiple methods;
+# Envelope type model must have `data_container` type field;
+# Response definition body has a `envelope` field to refer to particular envelope this response is wrapped by;
+#
+# Consider an example, let's say we decided that all API responses should contain status information and execution time
+#          {
+#            "status":"ok"
+#            "exec_time":123
+#            "data" : {... response data ...}
+#          }
+# then we need to define an envelope:
+#         name: StatusEnvelope
+#         fields:
+#            - name: status
+#            - name: exec_time
+#              type: number
+#            - name: data
+#              type: data_container     - !!!
+#
+# and then we define method responses with a reference to this envelope:
+#          ...
+#          response:       # A list of Users wrapped by StatusEnvelope object
+#              body:
+#               type: User
+#               array: true
+#               envelope: StatusEnvelope
+#
+#
+
   - name: MainEnvelope
+    type: envelope
     desc: |
         All response data are wrapped into envelope object, e.g.
           {
@@ -146,3 +387,4 @@ envelopes:
         desc: request processing time
       - name: data
         type: data_container
+

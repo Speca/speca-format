@@ -1,9 +1,14 @@
-name: Method 1
 method: GET
 path: /hello/{hello id}
 path_vars:
   - name: hello id
+
 desc: Description of method 1
+
+attributes:
+   Implementation Status: DONE
+   Authentication Required: NO
+
 request:
   params:
     - ref: q
@@ -11,8 +16,34 @@ request:
     - name: myname
       type: string
       example: Pavel
+
 response:
   status: 200
   body:
     type: HelloType
     envelope: MainEnvelope
+
+
+
+examples:
+  - name : Update user with something
+    url: POST https://baseurl/api/users/123?param1=12&param2=23
+    path_vars:
+      "user id": 123
+    request:
+      headers:
+        X-request: 123
+      params:
+         param1 : "fdadas"
+         param2 : 31e
+      body: |
+        {
+          "something": "hello"
+        }
+    response:
+      headers:
+        X-response: 1234
+        body: |
+          {
+            updated user
+          }

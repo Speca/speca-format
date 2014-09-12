@@ -1,0 +1,35 @@
+#################################################### CUSTOM METHOD ATTRIBUTES #########################################
+
+# Custom method attributes (aka properties) are designed to be an extension point for API methods documentation;
+# They could be used to extend method definitions with any information you want in a way Speca platform understands
+# and provides an extra features based on these attributes like filtering by attribute presence or by attribute value
+# as well as include them into final specification
+#
+# The good examples of custom attributes can be:
+#     **deprecated** mark or **authentication type** or **implementation status** etc...
+#
+#
+# Attribute definition consists of:
+# name     - attribute name (required); if you don't specify anything else than attribute became some sort of tag, e.g.  deprecated
+# options  - array of possible values for this attribute (string, optional)
+# desc     - attribute description
+# required - if attribute value is required for all methods
+# multiple - if attribute allows multiple values, e.g. Authentication: Basic, Key
+#
+# Attribute specified for a method are displayed in right-top corner panel in view mode??
+#
+########################################################################################################################
+
+attributes:
+
+  - name: Deprecated
+    desc: Mark method as deprecated
+
+  - name: Authentication required
+    desc: If authentication is required for particular method or not
+    options: ["YES", "NO"]
+
+  - name: Implementation Status
+    required: true
+    desc: Whether method is implemented or not
+    options: ["DONE", "IN PROGRESS", "NOT STARTED"]
