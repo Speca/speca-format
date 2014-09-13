@@ -1,7 +1,7 @@
 method: GET
 path: /hello/{hello id}
 path_vars:
-  - name: hello id
+  hello id:
 
 desc: Description of method 1
 
@@ -11,9 +11,9 @@ attributes:
 
 request:
   params:
-    - ref: q
+    q:
       desc: Description is overridden
-    - name: myname
+    myname:
       type: string
       example: Pavel
 
@@ -26,7 +26,7 @@ response:
 
 
 examples:
-  - name : Update user with something
+  Update user with something:
     url: POST https://baseurl/api/users/123?param1=12&param2=23
     path_vars:
       "user id": 123

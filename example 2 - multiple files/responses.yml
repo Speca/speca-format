@@ -1,16 +1,16 @@
 responses:
-    # common  response without body, applied to all methods
-    - name: Not Modified
-      status: 304
-      applied_to_all: true
 
-    # common  response with body
-    - name: Simple OK response
-      status: 200
-      body:
-        type: OkResponse
-        example: |
-              {
-                "ok":true
-              }
-      headers:
+  Not Modified:             # common  response without body, applied to all methods
+    status: 304
+    applied_to_all: true
+
+
+  Simple OK response:       # common  response with body
+    status: 200
+    body:
+      type: OkResponse
+      example: |
+            {
+              "ok":true
+            }
+    headers:

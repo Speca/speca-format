@@ -22,14 +22,14 @@
 
 attributes:
 
-  - name: Deprecated
+  Deprecated:
     desc: Mark method as deprecated
 
-  - name: Authentication required
+  Authentication required:
     desc: If authentication is required for particular method or not
     options: ["YES", "NO"]
 
-  - name: Implementation Status
+  Implementation Status:
     required: true
     desc: Whether method is implemented or not
     options: ["DONE", "IN PROGRESS", "NOT STARTED"]

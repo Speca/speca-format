@@ -1,8 +1,6 @@
-##
-
 desc: Common errors description
 errors:
-  - name: Access Denied
+  Access Denied:
     status: 403
     desc: User is not permitted to access a particular resource
     type: ErrorModel

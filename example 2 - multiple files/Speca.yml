@@ -11,5 +11,5 @@
 
 base_url: http://helloworld.io/api/{version}
 base_url_vars:
-  - name: version
+  version:
     desc: api version; 1 - the only supported value at the moment

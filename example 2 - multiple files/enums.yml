@@ -1,5 +1,5 @@
 enums:
-  - name : AnswerType
+  AnswerType:
     values:
       - value: OK
         desc : positive answer

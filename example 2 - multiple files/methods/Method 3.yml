@@ -2,9 +2,14 @@ name: Method 3
 path: /world
 method: DELETE
 desc: This method is not within any group and will be displaed in the root of the methods list, sorted alphabetically
+
 attributes:
+
   Deprecated:
+
   Authentication Required: YES
-  "Implementation Status": DONE
+
+  Implementation Status: DONE
+
 response:
   status: 204

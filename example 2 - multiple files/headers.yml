@@ -1,7 +1,7 @@
 request:
   desc: common params description
   headers:
-    - name: X-api-key
+    X-api-key:
       applied_to_all: true
       desc: Api key passed as a request header
 response:

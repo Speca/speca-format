@@ -1,7 +1,0 @@
-# `group.yml` file located within top level sub directory of methods is not required to have.
-# But if present it may define group description and override methods inclusion into the spec and their order
-
-desc: Group description               # Define the description for the group. Optional
-methods: ["Method 1", "Method 2"]      # Define actual methods and their order. Optional.
-                                      #    If omitted all methods located in the directory are included, and will be sorted alphabetically
-                                      #    In case methods: ["Method 1"]  - Method 2 will be ignored and not included into spec

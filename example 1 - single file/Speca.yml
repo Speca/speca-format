@@ -18,7 +18,7 @@
 
 base_url: http://helloworld.io/api/{version}
 base_url_vars:
-  - name: version
+  version:
     desc: api version; 1 - the only supported value at the moment
 
 #################################################### DOCUMENTATION #####################################################
@@ -34,11 +34,10 @@ base_url_vars:
 # Currently only markdown markup is supported;
 
 docs:
-  - name: Intro
-    content: Hello world API specification defined in single Speca file.
 
-  - name: Authentication
-    content: |
+  Intro: Hello world API specification defined in single Speca file.
+
+  Authentication: |
       Then only supported auth mechanizm is a key authentication. To obtain a key please go to ...
       Key can be passed either as `api_key` parameter or `X-api-key` header common for all requests
 
@@ -66,10 +65,10 @@ docs:
 params:
   desc: common params description
   params:
-    - name: api_key
+    api_key:
       applied_to_all: true
       desc: Api key passed as a query parameter
-    - name: q
+    q:
       desc: search query parameter
 
 
@@ -82,7 +81,7 @@ headers:
   request:
     desc: common headers description
     headers:
-      - name: X-api-key
+      X-api-key:
         applied_to_all: true
         desc: Api key passed as a request header
   response:
@@ -104,12 +103,12 @@ responses:
   responses:
 
     # common  response without body, applied to all methods
-    - name: Not Modified
+    Not Modified:
       status: 304
       applied_to_all: true
 
     # common  response with body
-    - name: Simple OK response
+    Simple OK response:
       status: 200
       body:
         type: OkResponse
@@ -122,7 +121,7 @@ responses:
 errors:
   desc: Common errors description
   errors:
-    - name: Access Denied
+    Access Denied:
       status: 403
       desc: User is not permitted to access a particular resource
       type: ErrorModel
@@ -155,14 +154,14 @@ errors:
 
 attributes:
 
-  - name: Deprecated
+  Deprecated:
     desc: Mark method as deprecated
 
-  - name: Authentication required
+  Authentication required:
     desc: If authentication is required for particular method or not
     options: ["YES", "NO"]
 
-  - name: Implementation Status
+  Implementation Status:
     required: true
     desc: Whether method is implemented or not
     options: ["DONE", "IN PROGRESS", "NOT STARTED"]
@@ -190,7 +189,7 @@ attributes:
 # Second approach is recommended for big specifications
 #
 groups:
-  - name: Hello
+  Hello:
     desc: Hello world method group
     methods: ["Method 1", "Method 2"]  # methods order will be preserved
 
@@ -229,21 +228,22 @@ groups:
 
 
 methods:
-  - name: Method 1
+  Method 1:
     method: GET
     path: /hello/{hello id}
     path_vars:
-      - name: hello id
+      hello id:
     desc: Description of method 1
+
     attributes:
       Implementation Status: DONE
       Authentication Required: NO
 
     request:
       params:
-        - ref: q
+        q:
           desc: Description is overridden
-        - name: myname
+        myname:
           type: string
           example: Pavel
     response:
@@ -253,14 +253,14 @@ methods:
         type: HelloType
         envelope: MainEnvelope
 
-  - name: Method 2
+  Method 2:
     method: POST
     path: /hello
     desc: Description of method 2
     response:
       status: 201
 
-  - name: Method 3
+  Method 3:
     path: /world
     method: DELETE
     desc: This method is not within any group and will be displaed in the root of the methods list, sorted alphabetically
@@ -288,7 +288,8 @@ methods:
 #
 
 enums:
-  - name : AnswerType
+  AnswerType:
+    desc: Answer type
     values:
       - value: OK
         desc : positive answer
@@ -320,7 +321,7 @@ enums:
 
 
 models:
-  - name: HelloType
+  HelloType:
     desc: Dummy data type for hello model API purposes
     fields:
       - name: name
@@ -331,7 +332,7 @@ models:
         type: number
       - name: answer_type
         type: AnswerType
-  - name: ErrorModel
+  ErrorModel:
     type: error
     desc: Error object definition
     fields:
@@ -371,7 +372,7 @@ models:
 #
 #
 
-  - name: MainEnvelope
+  MainEnvelope:
     type: envelope
     desc: |
         All response data are wrapped into envelope object, e.g.
