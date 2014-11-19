@@ -1,6 +1,6 @@
 # Speca Web API specification format (DRAFT v0.0)
 
-- [Привет](#привет)
+- [Привет](#Привет)
 - [Concept](#concept)
 - [File layout](#file-layout)
 - [Index file](#index-file)
